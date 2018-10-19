@@ -1,0 +1,25 @@
+
+spring:
+  cloud:
+    consul:
+      host: 123.207.64.43
+      port: 8500
+      discovery:
+        datacenters:
+          - consul_server1 : dc-west
+    discovery:
+      register: true
+      enabled: true
+      client:
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 15s
+      tags: consul-server1
+      instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+  application:
+    name: consul_server1
+server:
+  port: 8956
+management:
+  endpoint:
+    health:
+      enabled: true
